@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convite para Jantar Romântico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #e63946;
+      --secondary-color: #1a1a1a;
+      --accent-color: #ff9aa2;
+      --text-color: #f1faee;
+      --highlight-color: #ffccd5;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: var(--secondary-color);
+      background-image: radial-gradient(circle at 10% 20%, rgba(230, 57, 70, 0.1) 0%, rgba(26, 26, 26, 1) 90%);
+      font-family: 'Playfair Display', serif;
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23e63946" opacity="0.05" d="M30,50 Q50,30 70,50 Q50,70 30,50"/></svg>');
+      background-size: 100px 100px;
+      opacity: 0.3;
+      z-index: -1;
+    }
+    
+    .invitation-container {
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+      perspective: 1000px;
+    }
+    
+    .invitation-card {
+      background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(40, 40, 40, 0.9) 100%);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+                  0 0 0 1px rgba(230, 57, 70, 0.3),
+                  0 0 30px rgba(230, 57, 70, 0.2) inset;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+      position: relative;
+    }
+    
+    .couple-photo {
+      width: 100%;
+      height: 250px;
+      background-color: #333;
+      background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .couple-photo::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+    }
+    
+    .couple-photo h1 {
+      color: white;
+      font-size: 2.5rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      position: relative;
+      z-index: 1;
+      letter-spacing: 2px;
+    }
+    
+    .invitation-content {
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .invitation-header {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .invitation-header h2 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .invitation-header p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      color: var(--highlight-color);
+    }
+    
+    .heart-divider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+    }
+    
+    .heart-divider::before,
+    .heart-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+    }
+    
+    .heart-divider i {
+      margin: 0 15px;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      animation: pulse 1.5s infinite;
+    }
+    
+    .invitation-details {
+      margin-bottom: 25px;
+    }
+    
+    .invitation-details p {
+      margin: 15px 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    .invitation-details strong {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+    
+    .invitation-footer {
+      margin-top: 30px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      color: var(--accent-color);
+      font-style: italic;
+      position: relative;
+    }
+    
+    .invitation-footer::before {
+      content: "";
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+    }
+    
+    .rose-petal {
+      position: absolute;
+      background-color: var(--primary-color);
+      opacity: 0.6;
+      border-radius: 50% 0 50% 50%;
+      animation: falling linear infinite;
+      z-index: -1;
+    }
+    
+    @keyframes falling {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(calc(100vh + 100px)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    /* Efeito de brilho em elementos importantes */
+    .highlight {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .highlight::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary-color);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    
+    .highlight:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .couple-photo h1 {
+        font-size: 2rem;
+      }
+      
+      .invitation-header h2 {
+        font-size: 1.5rem;
+      }
+      
+      .invitation-content {
+        padding: 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .couple-photo {
+        height: 200px;
+      }
+      
+      .couple-photo h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="invitation-container">
+    <div class="invitation-card">
+      <div class="couple-photo">
+        <h1>Esta é a sua semana</h1>
+      </div>
+      
+      <div class="invitation-content">
+        <div class="invitation-header">
+          <h2>Convite Especial</h2>
+          <p>Para uma noite de magia e romance</p>
+        </div>
+        
+        <div class="heart-divider">
+          <i class="fas fa-heart"></i>
+        </div>
+        
+        <div class="invitation-details">
+          <p>Você está convidado para um</p>
+          <p><strong class="highlight">Jantar Romântico</strong></p>
+          <p>Data: <strong>12 de Abril</strong></p>
+          <p>Hora: <strong>20h30</strong></p>
+          <p>Local: <strong>Airbnb - Reservado</strong></p>
+          <p>Traje: <strong>Leve sua melhor roupa</strong></p>
+        </div>
+        
+        <div class="heart-divider">
+          <i class="fas fa-heart"></i>
+        </div>
+        
+        <div class="invitation-footer">
+          Espero por você para uma noite inesquecível repleta de amor e alegria!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Criar pétalas de rosas caindo
+    function createPetals() {
+      const colors = ['#e63946', '#ff9aa2', '#ffccd5', '#ffb7b2'];
+      const container = document.body;
+      
+      for (let i = 0; i < 15; i++) {
+        const petal = document.createElement('div');
+        petal.classList.add('rose-petal');
+        
+        // Tamanho aleatório
+        const size = Math.random() * 15 + 5;
+        petal.style.width = `${size}px`;
+        petal.style.height = `${size}px`;
+        
+        // Posição inicial aleatória
+        petal.style.left = `${Math.random() * 100}%`;
+        
+        // Cor aleatória
+        petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Duração e delay da animação aleatórios
+        const duration = Math.random() * 10 + 5;
+        const delay = Math.random() * 5;
+        petal.style.animationDuration = `${duration}s`;
+        petal.style.animationDelay = `${delay}s`;
+        
+        container.appendChild(petal);
+      }
+    }
+    
+    // Iniciar quando a página carregar
+    window.addEventListener('load', createPetals);
+    
+    // Efeito 3D suave ao mover o mouse
+    const card = document.querySelector('.invitation-card');
+    document.addEventListener('mousemove', (e) => {
+      const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+      const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+      card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+    
+    // Resetar quando o mouse sair do card
+    document.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    });
+  </script>
+</body>
+</html>
